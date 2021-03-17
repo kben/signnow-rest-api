@@ -12,7 +12,7 @@ import (
 
 	"github.com/kben/signnow-api/client/document"
 	"github.com/kben/signnow-api/client/document_group"
-	//"github.com/kben/signnow-api/client/embedded_signing"
+	"github.com/kben/signnow-api/client/embedded_signing"
 	"github.com/kben/signnow-api/client/folder"
 	"github.com/kben/signnow-api/client/o_auth2"
 	"github.com/kben/signnow-api/client/signing_link"
@@ -66,6 +66,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *SignNow {
 	cli.Transport = transport
 	cli.Document = document.New(transport, formats)
 	cli.DocumentGroup = document_group.New(transport, formats)
+	cli.EmbeddedSigning = embedded_signing.New(transport, formats)
 	cli.Folder = folder.New(transport, formats)
 	cli.OAuth2 = o_auth2.New(transport, formats)
 	cli.SigningLink = signing_link.New(transport, formats)
@@ -73,7 +74,6 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *SignNow {
 	cli.Template = template.New(transport, formats)
 	cli.User = user.New(transport, formats)
 	cli.Webhooks20 = webhooks_2_0.New(transport, formats)
-	//cli.EmbeddedSigning = embedded_signing.New(transport, formats)
 	return cli
 }
 
@@ -122,6 +122,8 @@ type SignNow struct {
 
 	DocumentGroup document_group.ClientService
 
+	EmbeddedSigning embedded_signing.ClientService
+
 	Folder folder.ClientService
 
 	OAuth2 o_auth2.ClientService
@@ -137,8 +139,6 @@ type SignNow struct {
 	Webhooks20 webhooks_2_0.ClientService
 
 	Transport runtime.ClientTransport
-
-	//EmbeddedSigning embedded_signing.ClientService
 }
 
 // SetTransport changes the transport on the client and all its subresources
@@ -146,6 +146,7 @@ func (c *SignNow) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
 	c.Document.SetTransport(transport)
 	c.DocumentGroup.SetTransport(transport)
+	c.EmbeddedSigning.SetTransport(transport)
 	c.Folder.SetTransport(transport)
 	c.OAuth2.SetTransport(transport)
 	c.SigningLink.SetTransport(transport)
@@ -153,5 +154,4 @@ func (c *SignNow) SetTransport(transport runtime.ClientTransport) {
 	c.Template.SetTransport(transport)
 	c.User.SetTransport(transport)
 	c.Webhooks20.SetTransport(transport)
-	//	c.EmbeddedSigning.SetTransport(transport)
 }
