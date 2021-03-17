@@ -7,6 +7,7 @@ package document
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"time"
 
@@ -81,7 +82,7 @@ type PostDocumentParams struct {
 	  @/path/to/your/file.pdf
 
 	*/
-	File string
+	File runtime.NamedReadCloser
 
 	timeout    time.Duration
 	Context    context.Context
@@ -133,14 +134,14 @@ func (o *PostDocumentParams) SetAuthorization(authorization string) {
 }
 
 // WithFile adds the file to the post document params
-func (o *PostDocumentParams) WithFile(file string) *PostDocumentParams {
-	o.SetFile(file)
+func (o *PostDocumentParams) WithFile(name string, file io.Reader) *PostDocumentParams {
+	o.SetFile(name, file)
 	return o
 }
 
 // SetFile adds the file to the post document params
-func (o *PostDocumentParams) SetFile(file string) {
-	o.File = file
+func (o *PostDocumentParams) SetFile(name string, file io.Reader) {
+	o.File = runtime.NamedReader(name, file)
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -158,11 +159,8 @@ func (o *PostDocumentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 
 	// form param file
 	frFile := o.File
-	fFile := frFile
-	if fFile != "" {
-		if err := r.SetFormParam("file", fFile); err != nil {
-			return err
-		}
+	if err := r.SetFileParam("file", frFile); err != nil {
+		return err
 	}
 
 	if len(res) > 0 {

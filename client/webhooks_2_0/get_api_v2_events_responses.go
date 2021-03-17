@@ -174,6 +174,8 @@ type GetAPIV2EventsOKBodyDataItems0 struct {
 	// entity id
 	EntityID int64 `json:"entity_id,omitempty"`
 
+	EntityUniqueID string `json:"entity_unique_id,omitempty"`
+
 	// event
 	Event string `json:"event,omitempty"`
 

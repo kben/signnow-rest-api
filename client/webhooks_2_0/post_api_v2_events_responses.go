@@ -24,7 +24,7 @@ type PostAPIV2EventsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *PostAPIV2EventsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 204:
+	case 201:
 		result := NewPostAPIV2EventsNoContent()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err

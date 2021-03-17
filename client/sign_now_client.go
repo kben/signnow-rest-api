@@ -12,6 +12,7 @@ import (
 
 	"github.com/kben/signnow-api/client/document"
 	"github.com/kben/signnow-api/client/document_group"
+	//"github.com/kben/signnow-api/client/embedded_signing"
 	"github.com/kben/signnow-api/client/folder"
 	"github.com/kben/signnow-api/client/o_auth2"
 	"github.com/kben/signnow-api/client/signing_link"
@@ -72,6 +73,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *SignNow {
 	cli.Template = template.New(transport, formats)
 	cli.User = user.New(transport, formats)
 	cli.Webhooks20 = webhooks_2_0.New(transport, formats)
+	//cli.EmbeddedSigning = embedded_signing.New(transport, formats)
 	return cli
 }
 
@@ -135,6 +137,8 @@ type SignNow struct {
 	Webhooks20 webhooks_2_0.ClientService
 
 	Transport runtime.ClientTransport
+
+	//EmbeddedSigning embedded_signing.ClientService
 }
 
 // SetTransport changes the transport on the client and all its subresources
@@ -149,4 +153,5 @@ func (c *SignNow) SetTransport(transport runtime.ClientTransport) {
 	c.Template.SetTransport(transport)
 	c.User.SetTransport(transport)
 	c.Webhooks20.SetTransport(transport)
+	//	c.EmbeddedSigning.SetTransport(transport)
 }

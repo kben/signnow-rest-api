@@ -78,7 +78,7 @@ type PostDocumentDocumentIDInviteParams struct {
 	*/
 	Authorization string
 	/*Body*/
-	Body PostDocumentDocumentIDInviteBody
+	Body interface{}
 	/*DocumentID*/
 	DocumentID string
 
@@ -138,7 +138,7 @@ func (o *PostDocumentDocumentIDInviteParams) WithBody(body PostDocumentDocumentI
 }
 
 // SetBody adds the body to the post document document ID invite params
-func (o *PostDocumentDocumentIDInviteParams) SetBody(body PostDocumentDocumentIDInviteBody) {
+func (o *PostDocumentDocumentIDInviteParams) SetBody(body interface{}) {
 	o.Body = body
 }
 
